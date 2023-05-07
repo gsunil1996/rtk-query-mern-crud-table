@@ -5,14 +5,13 @@ import CardContent from '@mui/material/CardContent';
 import moment from "moment";
 import CircularProgress from '@mui/material/CircularProgress';
 import Button from '@mui/material/Button';
-import { skipToken } from "@reduxjs/toolkit/dist/query";
 import { useGetSingleCompanyDetailsQuery } from "../../redux/features/companiesSlice";
 
 const CompanyProfile = () => {
     const navigate = useNavigate()
     const { id } = useParams();
 
-    const { data, isFetching, isError, error, isSuccess } = useGetSingleCompanyDetailsQuery(id ? id : skipToken)
+    const { data, isFetching, isError, error, isSuccess } = useGetSingleCompanyDetailsQuery(id)
 
     // console.log(data, "checkSingleCompanyData")
 

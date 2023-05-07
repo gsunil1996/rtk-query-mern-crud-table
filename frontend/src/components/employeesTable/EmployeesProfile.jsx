@@ -6,13 +6,12 @@ import moment from "moment";
 import CircularProgress from '@mui/material/CircularProgress';
 import Button from '@mui/material/Button';
 import { useGetSingleEmployeeDetailsQuery } from '../../redux/features/employeesSlice';
-import { skipToken } from "@reduxjs/toolkit/dist/query";
 
 const EmployeesProfile = () => {
     const navigate = useNavigate()
     const { id } = useParams();
 
-    const { data, isFetching, isError, error, isSuccess } = useGetSingleEmployeeDetailsQuery(id ? id : skipToken)
+    const { data, isFetching, isError, error, isSuccess } = useGetSingleEmployeeDetailsQuery(id, { skip: !id })
 
     // console.log(data, "checkSingleEmployeeData")
 

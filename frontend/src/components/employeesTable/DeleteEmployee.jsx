@@ -5,7 +5,7 @@ import Slide from '@mui/material/Slide';
 import Button from '@mui/material/Button';
 import NotificationDialog from '../notifications/NotificationDialog';
 import CircularProgress from '@mui/material/CircularProgress';
-import { useDeleteEmployeeMutation, useGetEmployeesTableQuery } from '../../redux/features/employeesSlice';
+import { useDeleteEmployeeMutation } from '../../redux/features/employeesSlice';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -16,10 +16,6 @@ const DeleteEmployee = (props) => {
     const { deleteEmployeeOpen, setDeleteEmployeeOpen, tableRowId, page, setCurrentPage } = props;
 
     const [deleteEmployee, { isLoading, isError, error, isSuccess, reset }] = useDeleteEmployeeMutation();
-
-    const { refetch } = useGetEmployeesTableQuery({
-        search: "", gender: "all", status: "all", sort: "new", page
-    });
 
     const [successMessage, setSuccessMessage] = useState("")
     const [failureMessage, setFailureMessage] = useState("")
@@ -52,7 +48,6 @@ const DeleteEmployee = (props) => {
             reset();
             sessionStorage.setItem("employeePage", page)
             setCurrentPage(page)
-            refetch()
         } else if (isError) {
             setSuccessMessage("")
             setFailureMessage("Something Went Wrong")

@@ -22,7 +22,7 @@ export const employeesSlice = createApi({
         }),
         getSingleEmployeeDetails: builder.query({
             query: (id) => `/employeesTable/${id}`,
-            providesTags: ['employeesTagTypes']
+            // providesTags: ['employeesTagTypes']
         }),
 
         updateEmployeeDetails: builder.mutation({

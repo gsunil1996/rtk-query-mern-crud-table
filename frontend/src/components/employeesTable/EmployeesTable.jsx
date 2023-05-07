@@ -97,21 +97,18 @@ const columns = [
 
 const EmployeesTable = () => {
     const navigate = useNavigate()
-    const [text, setText] = useState("")
+    const [text, setText] = useState("");
     const [search, setSearch] = useState("");
     const [gender, setGender] = useState("all");
     const [status, setStatus] = useState("all");
     const [sort, setSort] = useState("new");
     const [currentPage, setCurrentPage] = useState(sessionStorage.getItem('employeePage') || 1);
-
     const [tableRowId, setTableRowId] = useState("");
     const [addEmployeeOpen, setAddEmployeeOpen] = React.useState(false);
     const [editEmployeeopen, setEditEmployeeOpen] = React.useState(false);
     const [deleteEmployeeOpen, setDeleteEmployeeOpen] = useState(false);
 
-    const { data, isFetching, isError, isSuccess, error, refetch } = useGetEmployeesTableQuery({
-        search, gender, status, sort, currentPage
-    });
+    const { data, isFetching, isError, error, isSuccess, refetch } = useGetEmployeesTableQuery({ search, gender, status, sort, page: currentPage })
 
     // console.log(data, "employeesData")
 
@@ -140,29 +137,31 @@ const EmployeesTable = () => {
         sessionStorage.setItem("employeePage", newPage);
     };
 
-    const handleSearch = (searchedVal) => {
-        setText(searchedVal)
+    const requestSearch = () => {
+        setSearch(text)
         setCurrentPage(1);
+        sessionStorage.setItem("employeePage", 1)
     }
 
     const handleGenderChange = (event) => {
         setGender(event.target.value);
         setCurrentPage(1);
+        sessionStorage.setItem("employeePage", 1)
     };
 
     const handleStatusChange = (event) => {
         setStatus(event.target.value);
         setCurrentPage(1);
+        sessionStorage.setItem("employeePage", 1)
     };
 
     const handleSortChange = (event) => {
         setSort(event.target.value);
         setCurrentPage(1);
+        sessionStorage.setItem("employeePage", 1)
     };
 
-    const requestSearch = () => {
-        setSearch(text)
-    }
+
 
     const handleViewClick = (e, id) => {
         navigate(`/employee/${id}`)
@@ -181,6 +180,8 @@ const EmployeesTable = () => {
         }
     }, [])
 
+    console.log("currentPage", currentPage)
+
     return (
         <div>
             <div> <h1>Employees Table</h1> </div>
@@ -196,7 +197,7 @@ const EmployeesTable = () => {
                 <div style={{ display: "flex", gap: "10px", alignItems: "center", justifyContent: "center" }}>
                     <TextField id="standard-basic" label="Search" variant="standard" type="search"
                         value={text}
-                        onChange={(e) => handleSearch(e.target.value)}
+                        onChange={(e) => setText(e.target.value)}
                     />
                     <Button variant="contained" onClick={() => requestSearch()} >Search</Button>
                 </div>
@@ -429,7 +430,6 @@ const EmployeesTable = () => {
                 editEmployeeopen={editEmployeeopen}
                 setEditEmployeeOpen={setEditEmployeeOpen}
                 tableRowId={tableRowId}
-                currentPage={currentPage}
             />
 
             {/* delete employee dialog */}

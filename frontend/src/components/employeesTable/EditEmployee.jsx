@@ -14,8 +14,7 @@ import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import LinearProgress from '@mui/material/LinearProgress';
 import NotificationDialog from '../notifications/NotificationDialog';
-import { useGetEmployeesTableQuery, useGetSingleEmployeeDetailsQuery, useUpdateEmployeeDetailsMutation } from '../../redux/features/employeesSlice';
-import { skipToken } from '@reduxjs/toolkit/dist/query';
+import { useGetSingleEmployeeDetailsQuery, useUpdateEmployeeDetailsMutation } from '../../redux/features/employeesSlice';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -24,7 +23,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 const EditEmployee = (props) => {
 
-    const { editEmployeeopen, setEditEmployeeOpen, tableRowId, currentPage } = props;
+    const { editEmployeeopen, setEditEmployeeOpen, tableRowId } = props;
 
     const [inputdata, setInputData] = useState({
         fname: "",
@@ -52,11 +51,7 @@ const EditEmployee = (props) => {
 
 
 
-    const { data: singleEmployeeDetails, isFetching: singleEmployeeFetching, isError: singleEmployeeIsError, error: singleEmployeeError, isSuccess: singleEmployeeSuccess } = useGetSingleEmployeeDetailsQuery(tableRowId ? tableRowId : skipToken);
-
-    const { refetch } = useGetEmployeesTableQuery({
-        search: "", gender: "all", status: "all", sort: "new", page: currentPage
-    });
+    const { data: singleEmployeeDetails, isFetching: singleEmployeeFetching, isError: singleEmployeeIsError, error: singleEmployeeError, isSuccess: singleEmployeeSuccess } = useGetSingleEmployeeDetailsQuery(tableRowId, { skip: !tableRowId });
 
 
     const handleNotificationClickOpen = () => {
@@ -101,8 +96,6 @@ const EditEmployee = (props) => {
             handleEditEmployeeClose()
             handleNotificationClickOpen()
             reset()
-            refetch()
-            // useGetEmployeesTableQuery.invalidateQueries();
         } else if (isError) {
             setSuccessMessage("")
             setFailureMessage("Something Went Wrong")

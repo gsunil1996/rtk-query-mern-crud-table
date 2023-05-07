@@ -13,7 +13,7 @@ import Select from '@mui/material/Select';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import NotificationDialog from '../notifications/NotificationDialog';
-import { useAddEmployeeTableDataMutation, useGetEmployeesTableQuery } from '../../redux/features/employeesSlice';
+import { useAddEmployeeTableDataMutation } from '../../redux/features/employeesSlice';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -38,10 +38,6 @@ const AddEmployee = (props) => {
     }
 
     const [addTableData, { isLoading, isSuccess, isError, error, reset }] = useAddEmployeeTableDataMutation();
-
-    const { refetch } = useGetEmployeesTableQuery({
-        search: "", gender: "all", status: "all", sort: "new", page: 1
-    });
 
     const [successMessage, setSuccessMessage] = useState("")
     const [failureMessage, setFailureMessage] = useState("")
@@ -86,7 +82,6 @@ const AddEmployee = (props) => {
             sessionStorage.setItem("employeePage", 1)
             setCurrentPage(1)
             reset()
-            refetch()
         } else if (isError) {
             setSuccessMessage("")
             setFailureMessage("Something Went Wrong")
