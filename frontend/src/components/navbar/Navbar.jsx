@@ -10,6 +10,8 @@ const Navbar = () => {
                 <h1>CRUD Operations</h1>
             </div>
             <div style={{ display: "flex", gap: "10px", marginRight: "10px" }} >
+                <Button variant="contained" style={{ background: "#FCF951FF", color: "#422057FF" }}
+                    onClick={() => navigate('/users')}>Users List</Button>
                 <Button variant="contained" style={{ background: "#422057FF", color: "#FCF951FF" }}
                     onClick={() => navigate('/')} >Employees Table</Button>
                 <Button variant="contained" style={{ background: "#FCF951FF", color: "#422057FF" }}
